@@ -1,3 +1,86 @@
+# Created by https://www.toptal.com/developers/gitignore/api/java,intellij+iml,maven
+# Edit at https://www.toptal.com/developers/gitignore?templates=java,intellij+iml,maven
+
+### Intellij+iml ###
+# Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio, WebStorm and Rider
+# Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
+
+# User-specific stuff
+prank-bot/.idea/**/workspace.xml
+prank-bot/.idea/**/tasks.xml
+prank-bot/.idea/**/usage.statistics.xml
+prank-bot/.idea/**/dictionaries
+prank-bot/.idea/**/shelf
+
+# Generated files
+prank-bot/.idea/**/contentModel.xml
+
+# Sensitive or high-churn files
+prank-bot/.idea/**/dataSources/
+prank-bot/.idea/**/dataSources.ids
+prank-bot/.idea/**/dataSources.local.xml
+prank-bot/.idea/**/sqlDataSources.xml
+prank-bot/.idea/**/dynamic.xml
+prank-bot/.idea/**/uiDesigner.xml
+prank-bot/.idea/**/dbnavigator.xml
+
+# Gradle
+prank-bot/.idea/**/gradle.xml
+prank-bot/.idea/**/libraries
+
+# Gradle and Maven with auto-import
+# When using Gradle or Maven with auto-import, you should exclude module files,
+# since they will be recreated, and may cause churn.  Uncomment if using
+# auto-import.
+# prank-bot/.idea/artifacts
+# prank-bot/.idea/compiler.xml
+# prank-bot/.idea/jarRepositories.xml
+# prank-bot/.idea/modules.xml
+# prank-bot/.idea/*.iml
+# prank-bot/.idea/modules
+# *.iml
+# *.ipr
+
+
+# Mongo Explorer plugin
+prank-bot/.idea/**/mongoSettings.xml
+
+# File-based project format
+prank-bot/*.iws
+
+# IntelliJ
+prank-bot/out/
+
+# mpeltonen/sbtprank-bot/.idea plugin
+prank-bot/.idea_modules/
+
+# JIRA plugin
+prank-bot/atlassian-ide-plugin.xml
+
+# Cursive Clojure plugin
+prank-bot/.idea/replstate.xml
+
+# Crashlytics plugin (for Android Studio and IntelliJ)
+prank-bot/com_crashlytics_export_strings.xml
+prank-bot/crashlytics.properties
+prank-bot/crashlytics-build.properties
+prank-bot/fabric.properties
+
+# Editor-based Rest Client
+prank-bot/.idea/httpRequests
+
+# Android studio 3.1+ serialized cache file
+prank-bot/.idea/caches/build_file_checksums.ser
+
+### Intellij+iml Patch ###
+# Reason: https://github.com/joeblau/gitignore.io/issues/186#issuecomment-249601023
+
+prank-bot/*.iml
+prank-bot/modules.xml
+prank-bot/.idea/misc.xml
+prank-bot/*.ipr
+
+### Java ###
 # Compiled class file
 *.class
 
@@ -21,3 +104,19 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+
+### Maven ###
+prank-bot/target/
+prank-bot/pom.xml.tag
+prank-bot/pom.xml.releaseBackup
+prank-bot/pom.xml.versionsBackup
+prank-bot/pom.xml.next
+prank-bot/release.properties
+prank-bot/dependency-reduced-pom.xml
+prank-bot/buildNumber.properties
+prank-bot/.mvn/timing.properties
+# https://github.com/takari/maven-wrapper#usage-without-binary-jar
+prank-bot/.mvn/wrapper/maven-wrapper.jar
+prank-bot/.flattened-pom.xml
+
+# End of https://www.toptal.com/developers/gitignore/api/java,intellij+iml,maven
