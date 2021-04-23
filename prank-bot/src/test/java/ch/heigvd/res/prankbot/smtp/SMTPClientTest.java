@@ -33,7 +33,6 @@ public class SMTPClientTest {
         Groupe g2 = null;
         Prank prank = null;
 
-
         assertTrue(smtp.sendPrank(g1, prank));
         assertTrue(smtp.sendPrank(g2, prank));
 

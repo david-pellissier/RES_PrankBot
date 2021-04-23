@@ -6,16 +6,19 @@ import ch.heigvd.res.prankbot.Prank;
 import java.io.*;
 import java.net.Socket;
 
+/**
+ * Ouvre une connexion au serveur SMTP indiqué et permet d'envoyer des Prank
+ */
 public class SMTPClient {
+
+    static final int DEFAULT_PORT = 25;
+    static final String CRLF = "\r\n";
+    static final String END_MSG = CRLF + "." + CRLF;
 
     private Socket socket;
     private BufferedReader in;
     private PrintWriter out;
     private boolean connected = false;
-
-    static final int DEFAULT_PORT = 25;
-    static final String CRLF = "\r\n";
-    static final String END_MSG = CRLF + "." + CRLF;
 
     public SMTPClient(String ip) {
         this(ip, DEFAULT_PORT);
@@ -41,7 +44,38 @@ public class SMTPClient {
     }
 
     /**
+     * Envoie un Prank au groupe indiqué
+     *
+     * @param g groupe de victimes
+     * @param p prank à envoyer
+     * @return true si le prank a été envoyé à toutes les victimes destinataires
+     */
+    public boolean sendPrank(Groupe g, Prank p) {
+
+        if (!isConnected())
+            return false;
+
+        // TODO utiliser les informations passées en paramètre
+        String p1 = "dav.pellissier@gmail.com";
+        String p2 = "richard@gmail.com";
+        String msg = "From: " + p1 + "\n" +
+                "To: " + p2 + "\n" +
+                "Subject: Nop\n\n" +
+                "YOU JUST GOT PRANNNKED BBRROO!!! :DDDDD";
+
+        return sendMail(msg, p1, p2);
+    }
+
+    /**
+     * @return true si le client est connecté au serveur SMTP
+     */
+    public boolean isConnected() {
+        return connected;
+    }
+
+    /**
      * Ferme la connexion au serveur SMTP
+     *
      * @return true si la connexion a pu être fermée
      */
     public boolean close() {
@@ -68,6 +102,7 @@ public class SMTPClient {
 
     /**
      * Attend de recevoir une ligne commençant par "250 "
+     *
      * @throws IOException dans le cas où il y a un problème de connexion (fermeture du côté serveur, timeout, etc...)
      */
     private void waitAccept() throws IOException {
@@ -83,6 +118,7 @@ public class SMTPClient {
 
     /**
      * Envoie des données au serveur. Ajoute un CRLF à la fin du message.
+     *
      * @param data données à envoyer
      */
     private void send(String data) {
@@ -92,16 +128,14 @@ public class SMTPClient {
 
     /**
      * Envoie un email avec les informations passées en argument.
+     *
      * @param msgContent Contenu du message à envoyer.
      *                   Le header doit y figurer mais les caractères de fin sont ajoutés à l'envoi.
-     * @param from adresse de l'expéditeur
-     * @param to adresse du destinataire
+     * @param from       adresse de l'expéditeur
+     * @param to         adresse du destinataire
      * @return true si le mail a pu être envoyé
      */
     private boolean sendMail(String msgContent, String from, String to) {
-
-        if(!isConnected())
-            return false;
 
         try {
 
@@ -109,11 +143,11 @@ public class SMTPClient {
             send("EHLO " + from);
             waitAccept();
 
-            // MAIL FROM
+            // MAIL FROM: <>
             send("MAIL FROM: " + from);
             waitAccept();
 
-            // RCPT TO <>
+            // RCPT TO: <>
             send("RCPT TO: " + to);
             waitAccept();
 
@@ -125,7 +159,7 @@ public class SMTPClient {
                 return false;
             }
 
-            // Envoi du contenu du message
+            // Envoi du contenu du message avec les caractères de fin
             send(msgContent + END_MSG);
             waitAccept();
 
@@ -136,24 +170,4 @@ public class SMTPClient {
         return true;
     }
 
-    public boolean sendPrank(Groupe g, Prank p) {
-
-        if(!isConnected())
-            return false;
-
-        // TODO utiliser les informations passées en paramètre
-        String p1 = "dav.pellissier@gmail.com";
-        String p2 = "richard@gmail.com";
-        String msg =
-                "From: " + p1 + "\n" +
-                        "To: " + p2 + "\n" +
-                        "Subject: Nop\n\n" +
-                        "YOU JUST GOT PRANNNKED BBRROO!!! :DDDDD";
-
-        return sendMail(msg, p1, p2);
-    }
-
-    public boolean isConnected() {
-        return connected;
-    }
 }
