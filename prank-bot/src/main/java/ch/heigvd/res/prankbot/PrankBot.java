@@ -14,12 +14,9 @@ public class PrankBot implements Callable<Integer>
 {
     @Override
     public Integer call() throws Exception {
-        // Affichage de l'aide si on ne spécifie pas d'argument
-        SMTPClient smtp = new SMTPClient("127.0.0.1");
 
-        smtp.sendPrank(null, null);
-        smtp.sendPrank(null, null);
-        smtp.close();
+        // TODO: utiliser les infos en argument pour run l'application
+
         return 0;
     }
 
