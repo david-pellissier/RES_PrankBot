@@ -12,7 +12,7 @@ public class SMTPClientTest {
     static final String IP = "127.0.0.1"; // localhost
 
     public SMTPClientTest(){
-        SMTPClient smtp = new SMTPClient(IP);
+        this.smtp = new SMTPClient(IP);
     }
 
     @Test
