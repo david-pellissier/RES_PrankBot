@@ -58,15 +58,13 @@ public class SMTPClient {
 
         Personne emetteur = g.getEmetteur();
 
+        // Envoi du message à tous les destinataires
         for(Personne destinataire : g.getDestinataires()){
-            String msg = "From: " + emetteur + "\n" +
-            "To: " + destinataire + "\n" +
-            "Subject: Nop\n\n" +
-            "YOU JUST GOT PRANNNKED BBRROO!!! :DDDDD";
+           
+            String message = p.getMessage(emetteur, destinataire);
 
-            if(!sendMail(msg, emetteur.getMail(), destinataire.getMail())){
+            if(! sendMail(message, emetteur.getMail(), destinataire.getMail()))
                 return false;
-            }
         }
         
         return true;
