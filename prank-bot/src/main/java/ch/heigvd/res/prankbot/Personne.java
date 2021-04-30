@@ -4,6 +4,9 @@ import java.lang.Exception;
 
 import org.apache.commons.validator.routines.EmailValidator;
 
+/**
+ * Classe représentant une personne avec un mail et un nom (par défaut = mail)
+ */
 public class Personne {
 
     private final String mail;
