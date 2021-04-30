@@ -1,6 +1,6 @@
 package ch.heigvd.res.prankbot;
 
-import ch.heigvd.res.prankbot.smtp.SMTPClient;
+//import ch.heigvd.res.prankbot.smtp.SMTPClient;
 import picocli.CommandLine;
 import java.util.concurrent.Callable;
 
@@ -16,6 +16,8 @@ public class PrankBot implements Callable<Integer>
     public Integer call() throws Exception {
 
         // TODO: utiliser les infos en argument pour run l'application
+
+        System.out.println("TEST");
 
         return 0;
     }

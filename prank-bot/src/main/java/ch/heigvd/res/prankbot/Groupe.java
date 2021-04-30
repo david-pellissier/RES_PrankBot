@@ -8,7 +8,6 @@ public class Groupe {
     private final Personne emetteur;
     private ArrayList<Personne> destinataires = new ArrayList<Personne>();
 
-
     Groupe(Personne emetteur, Personne ... destinataires){
 
         this.emetteur = emetteur;
@@ -27,6 +26,10 @@ public class Groupe {
 
     public ArrayList<Personne> getDestinataires(){
         return destinataires;
+    }
+
+    public int nbVictimes(){
+        return 1 + this.destinataires.size();
     }
 
 }
