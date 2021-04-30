@@ -37,7 +37,7 @@ public class Prank {
         res = res.replace(E_NAME, e.getName());
 
         res = res.replace(D_MAIL, d.getMail());
-        res = res.replace(D_NAME, d.getMail());
+        res = res.replace(D_NAME, d.getName());
 
         return res;
     }
