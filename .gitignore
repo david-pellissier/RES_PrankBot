@@ -123,3 +123,4 @@ prank-bot/.flattened-pom.xml
 prank-bot/.settings/*
 prank-bot/.classpath
 prank-bot/.project
+.vscode/launch.json
