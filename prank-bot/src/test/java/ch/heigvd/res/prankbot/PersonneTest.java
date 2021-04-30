@@ -1,6 +1,7 @@
 package ch.heigvd.res.prankbot;
 
 import org.junit.Test;
+
 import static org.junit.Assert.*;
 
 public class PersonneTest 
@@ -27,7 +28,7 @@ public class PersonneTest
     public void PersonneMailOnly(){
         final String MAIL = "robin145@yahoo.fr";
         Personne robin = null;
-        
+
         try {
             robin = new Personne(MAIL);
         } catch (Exception e) {
