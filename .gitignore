@@ -120,3 +120,6 @@ prank-bot/.mvn/wrapper/maven-wrapper.jar
 prank-bot/.flattened-pom.xml
 
 # End of https://www.toptal.com/developers/gitignore/api/java,intellij+iml,maven
+prank-bot/.settings/*
+prank-bot/.classpath
+prank-bot/.project
