@@ -8,7 +8,7 @@ public class Groupe {
     private final Personne emetteur;
     private ArrayList<Personne> destinataires = new ArrayList<Personne>();
 
-    Groupe(Personne emetteur, Personne ... destinataires){
+    public Groupe(Personne emetteur, Personne ... destinataires){
 
         this.emetteur = emetteur;
 
