@@ -17,7 +17,7 @@ public class ConfigManagerTest {
             "src/test/java/ch/heigvd/res/prankbot/config/config.properties",
             "src/test/java/ch/heigvd/res/prankbot/config/victimes.json");
 
-        assertEquals(expectedAddress, cm.getSmtpServerAdress());
+        assertEquals(expectedAddress, cm.getSmtpServerAddress());
         assertEquals(expectedPort, cm.getSmtpServerPort());
         assertEquals(expectedNumber, cm.getNumberOfGroups());
         assertEquals(expectedNumber, cm.getVictimes().size());

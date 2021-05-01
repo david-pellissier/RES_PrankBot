@@ -12,7 +12,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public class ConfigManager {
-    private final String smtpServerAdress;
+    private final String smtpServerAddress;
     private final int smtpServerPort;
     private final int numberOfGroups;
     private final ArrayList<Groupe> victimes;
@@ -26,7 +26,7 @@ public class ConfigManager {
      */
     public ConfigManager (String configFile, String victimesFile) throws Exception {
         Properties prop = readPropertiesFile(configFile);
-        smtpServerAdress = prop.getProperty("smtpServerAdress");
+        smtpServerAddress = prop.getProperty("smtpServerAdress");
         smtpServerPort = Integer.parseInt(prop.getProperty("smtpServerPort"));
         numberOfGroups = Integer.parseInt(prop.getProperty("numberOfGroups"));
         victimes = getVictimes(victimesFile, numberOfGroups);
@@ -129,8 +129,8 @@ public class ConfigManager {
         return r.nextInt(max - min) + min;
     }
 
-    public String getSmtpServerAdress () {
-        return smtpServerAdress;
+    public String getSmtpServerAddress () {
+        return smtpServerAddress;
     }
 
     public int getSmtpServerPort () {

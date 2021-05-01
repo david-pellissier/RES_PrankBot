@@ -4,7 +4,8 @@
         { "subject":"Félicitations !", "content":"Salut %d_name% c'est %e_name% !\nBravo pour ta promotion !\nSi tu as des questions n'hésite pas à me contacter à mon adresse : %e_mail%" },
         { "subject":"Important", "content":"Rendez-vous à ces coordonnées mercredi à 18:30:30 : 35.160102095710236, -98.44218487921349\n\nC'est très important.\n\nJ'espère que vous serez au rendez-vous, %d_name%." },
         { "subject":"Demande importante",  "content":"Bonjour %d_name%,\n pouvez-vous me prêter 10'000chf ? C'est pour le travail \n\n %e_name%"},
-        { "subject":"A kind message :)", "content":"F*ck you %d_name%  !!!!! >:("}
+        { "subject":"A kind message :)", "content":"F*ck you %d_name%  !!!!! >:("},
+        { "subject":"Réunion d'hier ?", "content":"Bonjour %d_name%.\n\nAvez-vous oublié la réunion d'hier ? Nous n'avons pas pu vous atteindre sur votre téléphone...\nJe vous attends dans mon bureau afin d'entendre la raison de votre absence dans les plus brefs délais.\n\n%e_name%"}
     ]
 }
 
