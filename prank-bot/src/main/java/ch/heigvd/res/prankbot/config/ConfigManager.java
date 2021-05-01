@@ -26,7 +26,7 @@ public class ConfigManager {
      */
     public ConfigManager (String configFile, String victimesFile) throws Exception {
         Properties prop = readPropertiesFile(configFile);
-        smtpServerAddress = prop.getProperty("smtpServerAdress");
+        smtpServerAddress = prop.getProperty("smtpServerAddress");
         smtpServerPort = Integer.parseInt(prop.getProperty("smtpServerPort"));
         numberOfGroups = Integer.parseInt(prop.getProperty("numberOfGroups"));
         victimes = getVictimes(victimesFile, numberOfGroups);
