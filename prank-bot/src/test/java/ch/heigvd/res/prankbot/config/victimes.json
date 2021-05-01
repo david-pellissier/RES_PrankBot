@@ -1,0 +1,19 @@
+{
+  "victimes" : [
+    { "mail":"mail@l.com", "name":"test" },
+    { "mail":"mail@l.com", "name":"test" },
+    { "mail":"mail@l.com" },
+    { "mail":"mail@l.com", "name":"test" },
+    { "mail":"mail@l.com", "name":"test" },
+    { "mail":"mail@l.com" },
+    { "mail":"mail@l.com", "name":"test" },
+    { "mail":"mail@l.com", "name":"test" },
+    { "mail":"mail@l.com" },
+    { "mail":"mail@l.com", "name":"test" },
+    { "mail":"mail@l.com", "name":"test" },
+    { "mail":"mail@l.com" },
+    { "mail":"mail@l.com", "name":"test" },
+    { "mail":"mail@l.com", "name":"test" },
+    { "mail":"mail@l.com" }
+  ]
+}
