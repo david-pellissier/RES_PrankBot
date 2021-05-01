@@ -1,0 +1,9 @@
+FROM openjdk:8-jre
+
+#Using MockMock as SMTP Mock server
+RUN wget https://github.com/tweakers/MockMock/raw/master/release/MockMock.jar
+
+EXPOSE 25
+EXPOSE 8282
+
+CMD ["java", "-jar", "/MockMock.jar"]
