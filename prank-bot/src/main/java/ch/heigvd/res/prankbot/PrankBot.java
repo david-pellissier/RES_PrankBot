@@ -36,7 +36,7 @@ public class PrankBot implements Callable<Integer>
 
         try {
 
-            System.out.println(BANNER);
+            System.out.println("\n" + BANNER);
             
             System.out.print("Récupération de la configuration ...");
             ConfigManager config = new ConfigManager(configfile, victimesfile);
