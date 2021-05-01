@@ -37,7 +37,7 @@ public class Prank {
         String to = "To: " + destinataire + "\n";
         String subject_e= encodeB64(replaceVariables(this.subject, emetteur, destinataire));
         String subject = "Subject: =?utf-8?B?" + subject_e + "?=\n";
-        String encoding = "Content-Type: text/plain; charset=utf-8 \n\n";
+        String encoding = "Content-Type: text/plain; charset=utf-8\n\n";
         String content = replaceVariables(this.template, emetteur, destinataire);
 
         return from + to + subject + encoding + content;

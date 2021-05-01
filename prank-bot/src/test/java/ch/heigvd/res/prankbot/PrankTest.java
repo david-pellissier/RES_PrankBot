@@ -25,12 +25,13 @@ public class PrankTest {
 
 
         final String SUJET = "Demande importante à %d_name%";
-        final String TEMPLATE = "Bonjour %d_name%,\n pouvez-vous me prêter 10'000chf ? C'est pour le travail \n\n %e_name%";
+        final String TEMPLATE = "Bonjour %d_name%,\npouvez-vous me prêter 10'000chf ? C'est pour le travail\n\n%e_name%";
 
-        final String EXPECTED = "From: " + alice_mail + 
-                                "\nTo: " + bob_mail + 
-                                "\nSubject: Demande importante à " + bob_nom + "\n\n" +
-                                "Bonjour " + bob_nom + ",\n pouvez-vous me prêter 10'000chf ? C'est pour le travail \n\n " + alice_nom;
+        final String EXPECTED = "From: alice@gmail.com\n" +
+                                "To: bob@gmail.com\n"+ 
+                                "Subject: =?utf-8?B?RGVtYW5kZSBpbXBvcnRhbnRlIMOgIEJvYg==?=\n"+
+                                "Content-Type: text/plain; charset=utf-8\n\n" +
+                                "Bonjour Bob,\npouvez-vous me prêter 10'000chf ? C'est pour le travail\n\nAlice";
 
         Prank p = new Prank(SUJET, TEMPLATE);
 
