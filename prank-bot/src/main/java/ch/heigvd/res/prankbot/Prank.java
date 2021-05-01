@@ -1,5 +1,9 @@
 package ch.heigvd.res.prankbot;
 
+import java.nio.charset.StandardCharsets;
+
+import org.apache.commons.codec.binary.Base64;
+
 public class Prank {
 
     private final String template;
@@ -16,18 +20,42 @@ public class Prank {
         this.template = template;
     }
 
+    /**
+     * Renvoie un mail prêt à être envoyé
+     * @param emetteur émetteur du mail
+     * @param destinataire destinataire du mail
+     * @return
+     */
     public String getMessage(Personne emetteur, Personne destinataire){
 
         // En-tête
         String from = "From: " + emetteur + "\n";
-        
         String to = "To: " + destinataire + "\n";
-        String subject = "Subject: " + replaceVariables(this.subject, emetteur, destinataire) + "\n\n";
+        String subject_e= encodeB64(replaceVariables(this.subject, emetteur, destinataire));
+        String subject = "Subject: =?utf-8?B?" + subject_e + "?=\n";
+        String encoding = "Content-Type: text/plain; charset=utf-8 \n\n";
         String content = replaceVariables(this.template, emetteur, destinataire);
 
-        return from + to + subject + content;
+        return from + to + subject + encoding + content;
     }
 
+    /**
+     * Encode en base64 le sujet du message pour préserver l'encodage UTF-8
+     * @param s la chaîne de caractère à encoder
+     * @return String du sujet du message pr
+     */
+    private String encodeB64(String s){
+
+        return new String(Base64.encodeBase64(s.getBytes(StandardCharsets.UTF_8)));
+    }
+
+    /**
+     * 
+     * @param s
+     * @param e
+     * @param d
+     * @return
+     */
     private String replaceVariables(String s, Personne e, Personne d){
 
         String res = s;
