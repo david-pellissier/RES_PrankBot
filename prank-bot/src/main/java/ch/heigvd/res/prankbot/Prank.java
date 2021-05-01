@@ -1,5 +1,8 @@
 package ch.heigvd.res.prankbot;
 
+/**
+ * Classe servant à préparer des messages pour l'envoi par mail en fonction d'un template
+ */
 public class Prank {
 
     private final String template;
@@ -16,6 +19,14 @@ public class Prank {
         this.template = template;
     }
 
+    /**
+     * Formatte le message pour être prêt à être envoyé par SMTPClient. 
+     * Les variables du template sont remplacées par les personnes passées en paramètre.
+     * 
+     * @param emetteur personne qui envoie le message
+     * @param destinataire personne qui reçoit le message
+     * @return le message avec en-tête 
+     */
     public String getMessage(Personne emetteur, Personne destinataire){
 
         // En-tête
@@ -28,6 +39,13 @@ public class Prank {
         return from + to + subject + content;
     }
 
+    /**
+     * Remplace les variables dans la string passée en paramètre
+     * @param s String à traiter
+     * @param e émetteur (%e_mail% et %e_name%)
+     * @param d destinataire  (%d_mail% et %d_name%)
+     * @return la string avec les variables remplacées
+     */
     private String replaceVariables(String s, Personne e, Personne d){
 
         String res = s;
