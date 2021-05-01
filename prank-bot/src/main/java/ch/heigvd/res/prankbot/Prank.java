@@ -44,9 +44,9 @@ public class Prank {
     }
 
     /**
-     * Encode en base64 le sujet du message pour préserver l'encodage UTF-8
+     * Encode en base64 UTF-8 la string passée en paramètre
      * @param s la chaîne de caractère à encoder
-     * @return String du sujet du message pr
+     * @return la string encodée en base64
      */
     private String encodeB64(String s){
 
