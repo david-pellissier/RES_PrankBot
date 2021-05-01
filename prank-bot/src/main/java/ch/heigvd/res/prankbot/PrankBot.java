@@ -9,7 +9,7 @@ import ch.heigvd.res.prankbot.smtp.SMTPClient;
 @CommandLine.Command(
         name="prankbot",
         description = "Envoi de mails forgés à un groupe de victimes",
-        version="fuck edition",
+        version="1.0",
         mixinStandardHelpOptions = true
 )
 public class PrankBot implements Callable<Integer>
