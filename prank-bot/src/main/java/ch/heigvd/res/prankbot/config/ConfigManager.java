@@ -18,6 +18,12 @@ public class ConfigManager {
     private final int numberOfGroups;
     private final Groupe victimes;
 
+    /**
+     * @brief Classe gérant la configuration de l'application
+     * @param configFile Fichier de configuration contenant les informations tel que le serveur SMTP, le port et la
+     *                   taille des groupes
+     * @param victimesFile Fichier contenant une liste de victimes
+     */
     public ConfigManager (String configFile, String victimesFile) {
         Properties prop = readPropertiesFile(configFile);
         smtpServerAdress = prop.getProperty("smtpServerAdress");
@@ -26,6 +32,11 @@ public class ConfigManager {
         victimes = getVictimes(victimesFile, numberOfGroups);
     }
 
+    /**
+     * @brief Lit le fichier de configuration et récupère les informations
+     * @param file Chemin du fichier
+     * @return Les propriétés de la configuration
+     */
     private Properties readPropertiesFile(String file) {
         Properties prop = null;
         try (Reader reader = new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8)) {
@@ -38,6 +49,14 @@ public class ConfigManager {
         return prop;
     }
 
+    /**
+     * @brief Initialiste la liste de victimes à partir d'un fichier JSON. Tire un émetteur au hasard ainsi que les
+     *        victimes parmi la liste. Lance une exception si le nombre de victimes est plus grand que la taille de la
+     *        liste.
+     * @param file Chemin du fichier de victimes
+     * @param number Nombre de victimes
+     * @return Un Groupe composé d'un émetteur et d'une liste de destinataire
+     */
     private Groupe getVictimes (String file, int number) {
         Personne emetteur;
         Groupe victimes = null;
@@ -84,6 +103,12 @@ public class ConfigManager {
         return victimes;
     }
 
+    /**
+     * @brief Génère un nombre aléatoire entre min et max
+     * @param min Borne inférieur
+     * @param max Borne supérieur
+     * @return Un nombre aléatoire entre min et max
+     */
     private int getRandomNumberInRange(int min, int max) {
         if (min >= max) {
             throw new IllegalArgumentException("max must be greater than min");

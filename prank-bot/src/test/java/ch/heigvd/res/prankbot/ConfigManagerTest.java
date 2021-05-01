@@ -8,7 +8,7 @@ import java.io.IOException;
 
 public class ConfigManagerTest {
     @Test
-    public void InitConfigManager() throws IOException {
+    public void InitConfigManager() {
         String expectedAddress = "127.0.0.1";
         int expectedPort = 2525;
         int expectedNumber = 8;
