@@ -1,5 +1,11 @@
 package ch.heigvd.res.prankbot;
 
+import java.nio.charset.StandardCharsets;
+import org.apache.commons.codec.binary.Base64;
+
+/**
+ * Classe servant à préparer des messages pour l'envoi par mail en fonction d'un template
+ */
 public class Prank {
 
     private final String template;
@@ -16,18 +22,44 @@ public class Prank {
         this.template = template;
     }
 
+    /**
+     * Formatte le message pour être prêt à être envoyé par SMTPClient. 
+     * Les variables du template sont remplacées par les personnes passées en paramètre.
+     * 
+     * @param emetteur personne qui envoie le message
+     * @param destinataire personne qui reçoit le message
+     * @return le message avec en-tête 
+     */
     public String getMessage(Personne emetteur, Personne destinataire){
 
         // En-tête
         String from = "From: " + emetteur + "\n";
-        
         String to = "To: " + destinataire + "\n";
-        String subject = "Subject: " + replaceVariables(this.subject, emetteur, destinataire) + "\n\n";
+        String subject_e= encodeB64(replaceVariables(this.subject, emetteur, destinataire));
+        String subject = "Subject: =?utf-8?B?" + subject_e + "?=\n";
+        String encoding = "Content-Type: text/plain; charset=utf-8\n\n";
         String content = replaceVariables(this.template, emetteur, destinataire);
 
-        return from + to + subject + content;
+        return from + to + subject + encoding + content;
     }
 
+    /**
+     * Encode en base64 UTF-8 la string passée en paramètre
+     * @param s la chaîne de caractère à encoder
+     * @return la string encodée en base64
+     */
+    private String encodeB64(String s){
+
+        return new String(Base64.encodeBase64(s.getBytes(StandardCharsets.UTF_8)));
+    }
+
+    /**
+     * Remplace les variables dans la string passée en paramètre
+     * @param s String à traiter
+     * @param e émetteur (%e_mail% et %e_name%)
+     * @param d destinataire  (%d_mail% et %d_name%)
+     * @return la string avec les variables remplacées
+     */
     private String replaceVariables(String s, Personne e, Personne d){
 
         String res = s;

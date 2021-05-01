@@ -41,7 +41,7 @@ public class SMTPClientTest {
                                 new Personne("test4@bluewin.ch"),
                                 new Personne("test5@bluewin.ch"));
                                 
-        Prank prank = null;
+        Prank prank = new Prank("Mail test", "Ceci est un test, vous pouvez ignorer ce mail");
 
         assertTrue(smtp.sendPrank(g1, prank));
         assertTrue(smtp.sendPrank(g2, prank));
