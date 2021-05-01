@@ -2,9 +2,9 @@
     "pranks" : [
         { "subject":"Mécontentement", "content":"Bonjour %d_name%,\nVous n'avez pas honte ?\n\n\nCordialement, %e_name%" },
         { "subject":"Félicitations !", "content":"Salut %d_name% c'est %e_name% !\nBravo pour ta promotion !\nSi tu as des questions n'hésite pas à me contacter à mon adresse : %e_mail%" },
-        { "subject":"Important", "content":"Rendez-vous à ces coordonnées mercredi à 18:30:30 : 35.160102095710236, -98.44218487921349\n\nC'est très important.\n\nJ'espère que vous serez au rendez-vous, %d_name%" },
+        { "subject":"Important", "content":"Rendez-vous à ces coordonnées mercredi à 18:30:30 : 35.160102095710236, -98.44218487921349\n\nC'est très important.\n\nJ'espère que vous serez au rendez-vous, %d_name%." },
         { "subject":"Demande importante",  "content":"Bonjour %d_name%,\n pouvez-vous me prêter 10'000chf ? C'est pour le travail \n\n %e_name%"},
-        { "subject":"A kind message", "content":"Fuck you %d_name%!!!!!"}
+        { "subject":"A kind message :)", "content":"F*ck you %d_name%  !!!!! >:("}
     ]
 }
 
