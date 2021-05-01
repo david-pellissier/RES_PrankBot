@@ -41,7 +41,22 @@ public class GroupeTest
         }
     }
     
+    @Test 
+    public void EmptyGroup(){
 
+        try {
+            Personne e = new Personne("emitter@group.com");            
+
+            Groupe g = new Groupe(e);
+
+            assertEquals(0, g.getDestinataires().size());
+            assertEquals(1, g.nbVictimes());
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+
+    }
     
     @Test
     public void AddLargeGroup(){
@@ -50,9 +65,7 @@ public class GroupeTest
 
         try {
             
-            Personne e = null;
-            
-            e = new Personne("emitter@group.com");            
+            Personne e = new Personne("emitter@group.com");            
 
             Groupe g = new Groupe(e);
 
