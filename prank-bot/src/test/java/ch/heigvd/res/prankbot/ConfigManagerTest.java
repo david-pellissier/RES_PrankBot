@@ -4,8 +4,6 @@ import ch.heigvd.res.prankbot.config.ConfigManager;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
-import java.io.IOException;
-
 public class ConfigManagerTest {
     @Test
     public void InitConfigManager() {
