@@ -48,7 +48,7 @@ public class PrankGenerator {
     /**
      * @return un prank aléatoire dans la liste
      */
-    public Prank getPrank(){
+    public Prank getRandomPrank(){
 
         Random r = new Random();
         int index = r.nextInt(pranks.size());

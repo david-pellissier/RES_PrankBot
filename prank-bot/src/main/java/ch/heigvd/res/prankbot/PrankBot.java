@@ -11,7 +11,7 @@ import ch.heigvd.res.prankbot.smtp.SMTPClient;
 
 @Command(
         name="prankbot",
-        description = "Envoi de mails forgés à un groupe de victimes",
+        description = "Bot d'envoi de pranks",
         version="1.0",
         mixinStandardHelpOptions = true
 )
@@ -54,7 +54,7 @@ public class PrankBot implements Callable<Integer>
 
                 printVictimes(g);
             
-                boolean res = client.sendPrank(g, prankgen.getPrank());
+                boolean res = client.sendPrank(g, prankgen.getRandomPrank());
 
                 if(res)
                     System.out.println("Messages envoyés");
@@ -67,7 +67,7 @@ public class PrankBot implements Callable<Integer>
             System.out.println("...Fin du programme.\n");
         }
         catch(Exception e){
-            System.out.println(e.getMessage());
+            System.out.println("\nErreur:\n" + e.getMessage());
             return -1;
         }
         
