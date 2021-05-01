@@ -1,6 +1,5 @@
 package ch.heigvd.res.prankbot.config;
 
-
 import ch.heigvd.res.prankbot.Groupe;
 import ch.heigvd.res.prankbot.Personne;
 
@@ -16,7 +15,7 @@ public class ConfigManager {
     private final String smtpServerAdress;
     private final int smtpServerPort;
     private final int numberOfGroups;
-    private final Groupe victimes;
+    private final ArrayList<Groupe> victimes;
 
     /**
      * @brief Classe gérant la configuration de l'application
@@ -39,6 +38,7 @@ public class ConfigManager {
      */
     private Properties readPropertiesFile(String file) {
         Properties prop = null;
+
         try (Reader reader = new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8)) {
             prop = new Properties();
             prop.load(reader);
@@ -57,9 +57,10 @@ public class ConfigManager {
      * @param number Nombre de victimes
      * @return Un Groupe composé d'un émetteur et d'une liste de destinataire
      */
-    private Groupe getVictimes (String file, int number) {
+    private ArrayList<Groupe> getVictimes (String file, int number) {
         Personne emetteur;
-        Groupe victimes = null;
+        ArrayList<Groupe> groupesVictimes = new ArrayList<>();
+        Groupe victimes;
 
         JSONParser jsonParser = new JSONParser();
 
@@ -74,43 +75,56 @@ public class ConfigManager {
                 throw new IllegalArgumentException("number of victims must be lesser " +
                         "than the size of the victimes file");
 
-            int numberEmetteur = getRandomNumberInRange(1, listVictimes.size());
-            JSONObject jsonEmetteur = (JSONObject) listVictimes.get(numberEmetteur);
-            if (jsonEmetteur.containsKey("name")) {
-                emetteur = new Personne((String) jsonEmetteur.get("mail"), (String) jsonEmetteur.get("name"));
-            } else {
-                emetteur = new Personne((String) jsonEmetteur.get("mail"));
-            }
-            listVictimes.remove(numberEmetteur);
+            if ((listVictimes.size() / number) < 2)
+                throw new IllegalArgumentException("There must be at least 2 victims per groups");
 
-            victimes = new Groupe(emetteur);
+            int listSize = listVictimes.size();
 
-            for (int i = 0; i < number - 1; ++i) {
-                int randVictime = getRandomNumberInRange(1, listVictimes.size());
-                JSONObject jsonVictime = (JSONObject) listVictimes.get(randVictime);
-                if (jsonVictime.containsKey("name")) {
-                    victimes.addDestinataire(new Personne((String) jsonVictime.get("mail"),
-                            (String) jsonVictime.get("name")));
+            for (int i = 0; i < number; ++i) {
+                int numberEmetteur = getRandomNumberInRange(1, listVictimes.size());
+                JSONObject jsonEmetteur = (JSONObject) listVictimes.get(numberEmetteur);
+                if (jsonEmetteur.containsKey("name")) {
+                    emetteur = new Personne((String) jsonEmetteur.get("mail"), (String) jsonEmetteur.get("name"));
                 } else {
-                    victimes.addDestinataire(new Personne((String) jsonVictime.get("mail")));
+                    emetteur = new Personne((String) jsonEmetteur.get("mail"));
                 }
-                listVictimes.remove(randVictime);
+                listVictimes.remove(numberEmetteur);
+
+                victimes = new Groupe(emetteur);
+
+                for (int j = 0; j < (listSize / number) - 1; ++j) {
+                    int randVictime = getRandomNumberInRange(1, listVictimes.size());
+                    JSONObject jsonVictime = (JSONObject) listVictimes.get(randVictime);
+                    if (jsonVictime.containsKey("name")) {
+                        victimes.addDestinataire(new Personne((String) jsonVictime.get("mail"),
+                                (String) jsonVictime.get("name")));
+                    } else {
+                        victimes.addDestinataire(new Personne((String) jsonVictime.get("mail")));
+                    }
+                    listVictimes.remove(randVictime);
+                }
+                groupesVictimes.add(victimes);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return victimes;
+        return groupesVictimes;
     }
 
     /**
      * @brief Génère un nombre aléatoire entre min et max
-     * @param min Borne inférieur
-     * @param max Borne supérieur
+     * @param min Borne inférieure
+     * @param max Borne supérieure
      * @return Un nombre aléatoire entre min et max
      */
     private int getRandomNumberInRange(int min, int max) {
-        if (min >= max) {
+        /* Quand il n'y a plus qu'un seul élément dans la liste de victimes.json pendant la création de groupe, il n'est
+         * pas nécessaire de générer un nombre aléatoire et on peut directement récupérer le seul élément de la liste
+         */
+        if (max == min)
+            return 0;
+        if (min > max) {
             throw new IllegalArgumentException("max must be greater than min");
         }
 
@@ -130,7 +144,7 @@ public class ConfigManager {
         return numberOfGroups;
     }
 
-    public Groupe getVictimes () {
+    public ArrayList<Groupe> getVictimes () {
         return victimes;
     }
 }
