@@ -23,7 +23,7 @@ C'est la classe *PrankBot* qui manipule les autres classes selon les fichiers de
 1. Lire la configuration à l'aide de ConfigManager
 2. Créer la connexion à l'aide SMTPClient
 3. Initialiser le PrankGenerator
-4. Envoyer les pranksavec SMTPClient
+4. Envoyer les pranks avec SMTPClient
 
 Nous utilisons [Picocli](https://picocli.info/) pour gérer l'interface en ligne de commandes.
 
