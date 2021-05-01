@@ -18,14 +18,14 @@ import ch.heigvd.res.prankbot.smtp.SMTPClient;
 public class PrankBot implements Callable<Integer>
 {
 
-    @Option(names = { "-c", "--config"}, description = "Fichier .properties contenant la configuration de PrankBot") 
-    private String configfile = "config/config.properties";
+    @Option(names = { "-c", "--config"}, description = "Fichier .properties contenant la configuration de PrankBot", defaultValue = "config/config.properties") 
+    private String configfile;
 
-    @Option(names= { "-v", "--victimes"}, description = "Fichier JSON contenant les victimes")
-    private String victimesfile = "config/victimes.json";
+    @Option(names= { "-v", "--victimes"}, description = "Fichier JSON contenant les victimes", defaultValue = "config/victimes.json")
+    private String victimesfile;
 
-    @Option(names= { "-p", "--pranks"}, description = "Fichier JSON contenant les pranks")
-    private String prankfile = "config/pranks.json";
+    @Option(names= { "-p", "--pranks"}, description = "Fichier JSON contenant les pranks", defaultValue = "config/pranks.json")
+    private String prankfile;
 
     // générée depuis : https://textfancy.com/multiline-text-art/
     static final String BANNER = "\u2591\u2591\u2591\u2591\u2591\u2591  \u2591\u2591\u2591\u2591\u2591\u2591   \u2591\u2591\u2591\u2591\u2591  \u2591\u2591\u2591    \u2591\u2591 \u2591\u2591   \u2591\u2591 \u2591\u2591\u2591\u2591\u2591\u2591   \u2591\u2591\u2591\u2591\u2591\u2591  \u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591 \n\u2592\u2592   \u2592\u2592 \u2592\u2592   \u2592\u2592 \u2592\u2592   \u2592\u2592 \u2592\u2592\u2592\u2592   \u2592\u2592 \u2592\u2592  \u2592\u2592  \u2592\u2592   \u2592\u2592 \u2592\u2592    \u2592\u2592    \u2592\u2592    \n\u2592\u2592\u2592\u2592\u2592\u2592  \u2592\u2592\u2592\u2592\u2592\u2592  \u2592\u2592\u2592\u2592\u2592\u2592\u2592 \u2592\u2592 \u2592\u2592  \u2592\u2592 \u2592\u2592\u2592\u2592\u2592   \u2592\u2592\u2592\u2592\u2592\u2592  \u2592\u2592    \u2592\u2592    \u2592\u2592    \n\u2593\u2593      \u2593\u2593   \u2593\u2593 \u2593\u2593   \u2593\u2593 \u2593\u2593  \u2593\u2593 \u2593\u2593 \u2593\u2593  \u2593\u2593  \u2593\u2593   \u2593\u2593 \u2593\u2593    \u2593\u2593    \u2593\u2593    \n\u2588\u2588      \u2588\u2588   \u2588\u2588 \u2588\u2588   \u2588\u2588 \u2588\u2588   \u2588\u2588\u2588\u2588 \u2588\u2588   \u2588\u2588 \u2588\u2588\u2588\u2588\u2588\u2588   \u2588\u2588\u2588\u2588\u2588\u2588     \u2588\u2588    \n";
@@ -44,10 +44,10 @@ public class PrankBot implements Callable<Integer>
             System.out.print("OK\nLecture des pranks...");
             PrankGenerator prankgen = new PrankGenerator(prankfile);
 
-            System.out.print("OK\nConnexion au serveur SMTP" + config.getSmtpServerAddress() + ":" + config.getSmtpServerPort() + "...");
+            System.out.print("OK\nConnexion au serveur SMTP (" + config.getSmtpServerAddress() + ":" + config.getSmtpServerPort() + ")...");
             SMTPClient client = new SMTPClient(config.getSmtpServerAddress(), config.getSmtpServerPort());
             
-            System.out.print("Connexion réussie\n\n");
+            System.out.print("Connexion réussie\n\nEnvoi des messages aux groupes...");
     
             // Envoi des pranks à chaque groupe de victimes
             for( Groupe g : config.getVictimes()){
@@ -64,7 +64,7 @@ public class PrankBot implements Callable<Integer>
     
             client.close();
 
-            System.out.println("Fin du programme.\n");
+            System.out.println("...Fin du programme.\n");
         }
         catch(Exception e){
             System.out.println(e.getMessage());
