@@ -1,0 +1,7 @@
+{
+    "pranks" : [
+        { "subject":"s1", "content":"c1"},
+        { "subject":"s2", "content":"c2"},
+        { "subject":"s3", "content":"c3"}
+    ]
+}
