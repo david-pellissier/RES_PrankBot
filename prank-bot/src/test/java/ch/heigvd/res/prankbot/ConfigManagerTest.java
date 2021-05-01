@@ -11,14 +11,20 @@ public class ConfigManagerTest {
     public void InitConfigManager() {
         String expectedAddress = "127.0.0.1";
         int expectedPort = 2525;
-        int expectedNumber = 8;
-        int expectedNbVictimes = 8;
+        int expectedNumber = 10;
+        int expectedNbPerGr = 3;
 
-        ConfigManager cm = new ConfigManager("config/config.properties", "config/victimes.json");
+        ConfigManager cm = new ConfigManager(
+                "src/test/java/ch/heigvd/res/prankbot/config/config.properties",
+                "src/test/java/ch/heigvd/res/prankbot/config/victimes.json");
 
         assertEquals(expectedAddress, cm.getSmtpServerAdress());
         assertEquals(expectedPort, cm.getSmtpServerPort());
         assertEquals(expectedNumber, cm.getNumberOfGroups());
-        assertEquals(expectedNbVictimes, cm.getVictimes().nbVictimes());
+        assertEquals(expectedNumber, cm.getVictimes().size());
+        for (int i = 0; i < expectedNumber; ++i) {
+            assertEquals(expectedNbPerGr, cm.getVictimes().get(i).nbVictimes());
+        }
+
     }
 }
