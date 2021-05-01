@@ -4,6 +4,7 @@ package ch.heigvd.res.prankbot;
 import picocli.CommandLine;
 import java.util.concurrent.Callable;
 
+import ch.heigvd.res.prankbot.config.ConfigManager;
 import ch.heigvd.res.prankbot.smtp.SMTPClient;
 
 @CommandLine.Command(
@@ -14,28 +15,29 @@ import ch.heigvd.res.prankbot.smtp.SMTPClient;
 )
 public class PrankBot implements Callable<Integer>
 {
+
+    //@CommandLine.Option 
+
     @Override
     public Integer call() throws Exception {
 
         // TODO: utiliser les infos en argument pour run l'application
-        
-        SMTPClient client = new SMTPClient("localhost");
-
-        Personne alice = new Personne("alice@gmail.com", "Alice");
-        Personne bob = new Personne("bob@gmail.com", "Bob");
-        Personne charlie = new Personne("charlie@gmail.com", "Charlie");
-
-        final String SUJET = "Demande importante à %d_name%";
-        final String TEMPLATE = "Bonjour %d_name%,\n pouvez-vous me prêter 10'000chf ? C'est pour le travail \n\n %e_name%";
-        Prank p = new Prank(SUJET, TEMPLATE);
-        Groupe g = new Groupe(alice, bob, charlie);
-
-        if(client.isConnected()){
-            client.sendPrank(g, p);
+        try {
+            ConfigManager config = new ConfigManager("prank-bot/config/config.properties", "prank-bot/config/victimes.json");
+            PrankGenerator prankgen = new PrankGenerator("prank-bot/config/pranks.json");
+            SMTPClient client = new SMTPClient(config.getSmtpServerAdress(), config.getSmtpServerPort());
+    
+            for( Groupe g : config.getVictimes()){
+                client.sendPrank(g, prankgen.getPrank());
+            }
+    
+            client.close();
         }
-
-        client.close();
-
+        catch(Exception e){
+            System.out.println(e.getMessage());
+            return -1;
+        }
+        
         return 0;
     }
 

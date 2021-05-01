@@ -1,19 +1,19 @@
 {
   "victimes" : [
-    { "mail":"mail@l.com", "name":"test" },
-    { "mail":"mail@l.com", "name":"test" },
-    { "mail":"mail@l.com" },
-    { "mail":"mail@l.com", "name":"test" },
-    { "mail":"mail@l.com", "name":"test" },
-    { "mail":"mail@l.com" },
-    { "mail":"mail@l.com", "name":"test" },
-    { "mail":"mail@l.com", "name":"test" },
-    { "mail":"mail@l.com" },
-    { "mail":"mail@l.com", "name":"test" },
-    { "mail":"mail@l.com", "name":"test" },
-    { "mail":"mail@l.com" },
-    { "mail":"mail@l.com", "name":"test" },
-    { "mail":"mail@l.com", "name":"test" },
-    { "mail":"mail@l.com" }
+    { "mail":"david.pellissier@heig-vd.ch", "name":"David" },
+    { "mail":"soulaymane.lamrani@heig-vd.ch", "name":"Soul" },
+
+    { "mail":"monfauxcompte@tempmail.net" },
+
+    { "mail":"batman@batman.net", "name":"Batman le vrai"},
+    { "mail":"batman12@gmail.com", "name":"Batman officiel"},
+    { "mail":"b4tman@yahoo.fr", "name":"Batman"},
+
+    { "mail":"robin@batman.net", "name":"Robin le vrai"},
+    { "mail":"robinou@gmail.com", "name":"Robin mon héros <3"},
+    
+    { "mail":"plainte@batman.org"}
+
+
   ]
 }

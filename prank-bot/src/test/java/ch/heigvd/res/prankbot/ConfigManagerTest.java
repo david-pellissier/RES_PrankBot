@@ -12,17 +12,24 @@ public class ConfigManagerTest {
         int expectedNumber = 10;
         int expectedNbPerGr = 3;
 
+        try {
         ConfigManager cm = new ConfigManager(
-                "src/test/java/ch/heigvd/res/prankbot/config/config.properties",
-                "src/test/java/ch/heigvd/res/prankbot/config/victimes.json");
+            "src/test/java/ch/heigvd/res/prankbot/config/config.properties",
+            "src/test/java/ch/heigvd/res/prankbot/config/victimes.json");
 
         assertEquals(expectedAddress, cm.getSmtpServerAdress());
         assertEquals(expectedPort, cm.getSmtpServerPort());
         assertEquals(expectedNumber, cm.getNumberOfGroups());
         assertEquals(expectedNumber, cm.getVictimes().size());
+
         for (int i = 0; i < expectedNumber; ++i) {
             assertEquals(expectedNbPerGr, cm.getVictimes().get(i).nbVictimes());
         }
 
+
+        } catch(Exception e){
+
+        }
+        
     }
 }

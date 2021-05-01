@@ -51,7 +51,7 @@ public class PrankGenerator {
     public Prank getPrank(){
 
         Random r = new Random();
-        int index = r.nextInt(pranks.size()-1);
+        int index = r.nextInt(pranks.size());
 
         return pranks.get(index);
 
