@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class PrankGeneratorTest {
 
-    static final String CONF_STRING = "config/pranks.json";
+    static final String CONF_STRING = "src/test/java/ch/heigvd/res/prankbot/config/pranks.json";
 
     @Test
     public void readContent() {
