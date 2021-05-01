@@ -1,11 +1,15 @@
 # RES_PrankBot
 
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/david-pellissier/RES_PrankBot)
-![GitHub issues](https://img.shields.io/github/issues-raw/david-pellissier/RES_PrankBot)
-![GitHub repo size](https://img.shields.io/github/repo-size/david-pellissier/RES_PrankBot)
-![GitHub all releases](https://img.shields.io/github/downloads/david-pellissier/RES_PrankBot/total)
+[![GitHub release (latest by date)](https://img.shields.io/github/v/release/david-pellissier/RES_PrankBot)](releases/latest)
+[![GitHub issues](https://img.shields.io/github/issues-raw/david-pellissier/RES_PrankBot)](issues)
+[![GitHub repo size](https://img.shields.io/github/repo-size/david-pellissier/RES_PrankBot)](#)
+[![GitHub all releases](https://img.shields.io/github/downloads/david-pellissier/RES_PrankBot/total)](releases/latest)
 
-Implémentation du labo SMTP du cours RES 2021 ([lien](https://github.com/SoftEng-HEIGVD/Teaching-HEIGVD-RES-2021-Labo-SMTP))
+## Description du projet
+
+PrankBot a pour but de générer des mails forgés à des groupes de personnes. Sa configuration se fait par fichiers afin de permettre l'automatisation de ce bot.
+
+Le projet est issu du labo SMTP du cours HEIG-VD RES de 2021 ([lien](https://github.com/SoftEng-HEIGVD/Teaching-HEIGVD-RES-2021-Labo-SMTP)).
 
 ## Configuration
 
