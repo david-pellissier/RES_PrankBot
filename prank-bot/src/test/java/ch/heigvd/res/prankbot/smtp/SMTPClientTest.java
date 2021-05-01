@@ -2,6 +2,8 @@ package ch.heigvd.res.prankbot.smtp;
 
 import ch.heigvd.res.prankbot.Groupe;
 import ch.heigvd.res.prankbot.Prank;
+import ch.heigvd.res.prankbot.Personne;
+
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -28,15 +30,25 @@ public class SMTPClientTest {
     @Test
     public void sendPranks() {
 
-        // TODO: initialiser les objets
-        Groupe g1 = null;
-        Groupe g2 = null;
+        try {
+        Groupe g1 = new Groupe(new Personne("test@gmail.com"), 
+                                new Personne("test2@gmail.com"), 
+                                new Personne("test4@gmail.com"),
+                                new Personne("test5@gmail.com"));
+        
+        Groupe g2 = new Groupe(new Personne("test@bluewin.ch"), 
+                                new Personne("test2@bluewin.ch"), 
+                                new Personne("test4@bluewin.ch"),
+                                new Personne("test5@bluewin.ch"));
+                                
         Prank prank = null;
 
         assertTrue(smtp.sendPrank(g1, prank));
         assertTrue(smtp.sendPrank(g2, prank));
 
         smtp.close();
-
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -2,6 +2,7 @@ package ch.heigvd.res.prankbot.smtp;
 
 import ch.heigvd.res.prankbot.Groupe;
 import ch.heigvd.res.prankbot.Prank;
+import ch.heigvd.res.prankbot.Personne;
 
 import java.io.*;
 import java.net.Socket;
@@ -55,15 +56,18 @@ public class SMTPClient {
         if (!isConnected())
             return false;
 
-        // TODO utiliser les informations passées en paramètre
-        String p1 = "dav.pellissier@gmail.com";
-        String p2 = "richard@gmail.com";
-        String msg = "From: " + p1 + "\n" +
-                "To: " + p2 + "\n" +
-                "Subject: Nop\n\n" +
-                "YOU JUST GOT PRANNNKED BBRROO!!! :DDDDD";
+        Personne emetteur = g.getEmetteur();
 
-        return sendMail(msg, p1, p2);
+        // Envoi du message à tous les destinataires
+        for(Personne destinataire : g.getDestinataires()){
+           
+            String message = p.getMessage(emetteur, destinataire);
+
+            if(! sendMail(message, emetteur.getMail(), destinataire.getMail()))
+                return false;
+        }
+        
+        return true;
     }
 
     /**
