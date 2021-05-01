@@ -22,12 +22,11 @@ public class SMTPClient {
     private PrintWriter out;
     private boolean connected = false;
 
-    public SMTPClient(String ip) {
+    public SMTPClient(String ip) throws Exception {
         this(ip, DEFAULT_PORT);
     }
 
-    public SMTPClient(String ip, int port) {
-        try {
+    public SMTPClient(String ip, int port) throws Exception {
 
             this.socket = new Socket(ip, port);
             this.in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -36,13 +35,11 @@ public class SMTPClient {
 
             // Message de bienvenue
             if (!in.readLine().startsWith("220 ")) {
-                throw new Exception();
+                throw new Exception("Le serveur n'a pas accepté la connexion");
             }
 
             connected = true;
-        } catch (final Exception e) {
-            System.out.println("Erreur: la connexion au serveur SMTP a échoué");
-        }
+    
 
     }
 
@@ -83,8 +80,9 @@ public class SMTPClient {
      * Ferme la connexion au serveur SMTP
      *
      * @return true si la connexion a pu être fermée
+     * @throws Exception
      */
-    public boolean close() {
+    public boolean close() throws Exception {
         try {
             send("quit");
 
@@ -98,8 +96,7 @@ public class SMTPClient {
             out.close();
             socket.close();
         } catch (final Exception e) {
-            System.out.println("Erreur: la connexion n'a pas pu être fermée");
-            return false;
+            throw new Exception("Erreur: la connexion n'a pas pu être fermée");
         }
 
         connected = false;

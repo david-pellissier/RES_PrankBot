@@ -10,21 +10,32 @@ import static org.junit.Assert.*;
 
 public class SMTPClientTest {
 
-    SMTPClient smtp;
+    SMTPClient smtp = null;
     static final String IP = "127.0.0.1"; // localhost
 
     public SMTPClientTest(){
-        this.smtp = new SMTPClient(IP);
+
+        try {
+            this.smtp = new SMTPClient(IP);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+        
     }
 
     @Test
     public void connectionOpenedAndClosed(){
 
-        assertTrue(smtp.isConnected());
+        try {
+            assertTrue(smtp.isConnected());
 
-        assertTrue(smtp.close());
+            assertTrue(smtp.close());
+    
+            assertFalse(smtp.isConnected());    
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-        assertFalse(smtp.isConnected());
     }
 
     @Test

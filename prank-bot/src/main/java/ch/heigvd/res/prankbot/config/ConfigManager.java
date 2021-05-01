@@ -12,20 +12,21 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public class ConfigManager {
-    private final String smtpServerAdress;
+    private final String smtpServerAddress;
     private final int smtpServerPort;
     private final int numberOfGroups;
     private final ArrayList<Groupe> victimes;
 
     /**
      * @brief Classe gérant la configuration de l'application
-     * @param configFile Fichier de configuration contenant les informations tel que le serveur SMTP, le port et la
-     *                   taille des groupes
+     * @param configFile Fichier de configuration contenant les informations tel que le serveur SMTP, le port et le
+     *                   nombre de groupes
      * @param victimesFile Fichier contenant une liste de victimes
+     * @throws Exception
      */
-    public ConfigManager (String configFile, String victimesFile) {
+    public ConfigManager (String configFile, String victimesFile) throws Exception {
         Properties prop = readPropertiesFile(configFile);
-        smtpServerAdress = prop.getProperty("smtpServerAdress");
+        smtpServerAddress = prop.getProperty("smtpServerAdress");
         smtpServerPort = Integer.parseInt(prop.getProperty("smtpServerPort"));
         numberOfGroups = Integer.parseInt(prop.getProperty("numberOfGroups"));
         victimes = getVictimes(victimesFile, numberOfGroups);
@@ -35,78 +36,74 @@ public class ConfigManager {
      * @brief Lit le fichier de configuration et récupère les informations
      * @param file Chemin du fichier
      * @return Les propriétés de la configuration
+     * @throws IOException
      */
-    private Properties readPropertiesFile(String file) {
+    private Properties readPropertiesFile(String file) throws IOException {
         Properties prop = null;
 
-        try (Reader reader = new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8)) {
-            prop = new Properties();
-            prop.load(reader);
-        } catch (IOException fnfe) {
-            fnfe.printStackTrace();
-        }
+        Reader reader = new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8);
+        prop = new Properties();
+        prop.load(reader);
 
         return prop;
     }
 
     /**
-     * @brief Initialiste la liste de victimes à partir d'un fichier JSON. Tire un émetteur au hasard ainsi que les
+     * @brief Initialise la liste de victimes à partir d'un fichier JSON. Tire un émetteur au hasard ainsi que les
      *        victimes parmi la liste. Lance une exception si le nombre de victimes est plus grand que la taille de la
      *        liste.
      * @param file Chemin du fichier de victimes
      * @param number Nombre de victimes
      * @return Un Groupe composé d'un émetteur et d'une liste de destinataire
+     * @throws Exception
      */
-    private ArrayList<Groupe> getVictimes (String file, int number) {
+    private ArrayList<Groupe> getVictimes (String file, int number) throws Exception {
         Personne emetteur;
         ArrayList<Groupe> groupesVictimes = new ArrayList<>();
         Groupe victimes;
 
         JSONParser jsonParser = new JSONParser();
 
-        try (FileReader reader = new FileReader(file)) {
-            Object obj = jsonParser.parse(reader);
+        FileReader reader = new FileReader(file);
+        Object obj = jsonParser.parse(reader);
 
-            JSONObject jsonObject = (JSONObject) obj;
+        JSONObject jsonObject = (JSONObject) obj;
 
-            JSONArray listVictimes = (JSONArray) jsonObject.get("victimes");
+        JSONArray listVictimes = (JSONArray) jsonObject.get("victimes");
 
-            if (number > listVictimes.size())
-                throw new IllegalArgumentException("number of victims must be lesser " +
-                        "than the size of the victimes file");
+        if (number > listVictimes.size())
+            throw new IllegalArgumentException("number of victims must be lesser " +
+                    "than the size of the victimes file");
 
-            if ((listVictimes.size() / number) < 2)
-                throw new IllegalArgumentException("There must be at least 2 victims per groups");
+        if ((listVictimes.size() / number) < 3)
+            throw new IllegalArgumentException("There must be at least 3 victims per groups");
 
-            int listSize = listVictimes.size();
+        int listSize = listVictimes.size();
 
-            for (int i = 0; i < number; ++i) {
-                int numberEmetteur = getRandomNumberInRange(1, listVictimes.size());
-                JSONObject jsonEmetteur = (JSONObject) listVictimes.get(numberEmetteur);
-                if (jsonEmetteur.containsKey("name")) {
-                    emetteur = new Personne((String) jsonEmetteur.get("mail"), (String) jsonEmetteur.get("name"));
-                } else {
-                    emetteur = new Personne((String) jsonEmetteur.get("mail"));
-                }
-                listVictimes.remove(numberEmetteur);
-
-                victimes = new Groupe(emetteur);
-
-                for (int j = 0; j < (listSize / number) - 1; ++j) {
-                    int randVictime = getRandomNumberInRange(1, listVictimes.size());
-                    JSONObject jsonVictime = (JSONObject) listVictimes.get(randVictime);
-                    if (jsonVictime.containsKey("name")) {
-                        victimes.addDestinataire(new Personne((String) jsonVictime.get("mail"),
-                                (String) jsonVictime.get("name")));
-                    } else {
-                        victimes.addDestinataire(new Personne((String) jsonVictime.get("mail")));
-                    }
-                    listVictimes.remove(randVictime);
-                }
-                groupesVictimes.add(victimes);
+        for (int i = 0; i < number; ++i) {
+            int numberEmetteur = getRandomNumberInRange(1, listVictimes.size());
+            JSONObject jsonEmetteur = (JSONObject) listVictimes.get(numberEmetteur);
+            if (jsonEmetteur.containsKey("name")) {
+                emetteur = new Personne((String) jsonEmetteur.get("mail"), (String) jsonEmetteur.get("name"));
+            } else {
+                emetteur = new Personne((String) jsonEmetteur.get("mail"));
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+            listVictimes.remove(numberEmetteur);
+
+            victimes = new Groupe(emetteur);
+
+            for (int j = 0; j < (listSize / number) - 1; ++j) {
+                int randVictime = getRandomNumberInRange(1, listVictimes.size());
+                JSONObject jsonVictime = (JSONObject) listVictimes.get(randVictime);
+                if (jsonVictime.containsKey("name")) {
+                    victimes.addDestinataire(new Personne((String) jsonVictime.get("mail"),
+                            (String) jsonVictime.get("name")));
+                } else {
+                    victimes.addDestinataire(new Personne((String) jsonVictime.get("mail")));
+                }
+                listVictimes.remove(randVictime);
+            }
+            groupesVictimes.add(victimes);
         }
 
         return groupesVictimes;
@@ -132,8 +129,8 @@ public class ConfigManager {
         return r.nextInt(max - min) + min;
     }
 
-    public String getSmtpServerAdress () {
-        return smtpServerAdress;
+    public String getSmtpServerAddress () {
+        return smtpServerAddress;
     }
 
     public int getSmtpServerPort () {
