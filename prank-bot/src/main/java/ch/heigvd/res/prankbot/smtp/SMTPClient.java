@@ -6,6 +6,7 @@ import ch.heigvd.res.prankbot.Personne;
 
 import java.io.*;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
 
 /**
  * Ouvre une connexion au serveur SMTP indiqué et permet d'envoyer des Prank
@@ -30,7 +31,8 @@ public class SMTPClient {
 
             this.socket = new Socket(ip, port);
             this.in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            this.out = new PrintWriter(socket.getOutputStream());
+            OutputStream os = socket.getOutputStream();
+            this.out = new PrintWriter(new OutputStreamWriter(os, StandardCharsets.UTF_8));
 
             // Message de bienvenue
             if (!in.readLine().startsWith("220 ")) {

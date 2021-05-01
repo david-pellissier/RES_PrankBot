@@ -1,5 +1,8 @@
 package ch.heigvd.res.prankbot;
 
+import java.nio.charset.StandardCharsets;
+import org.apache.commons.codec.binary.Base64;
+
 /**
  * Classe servant à préparer des messages pour l'envoi par mail en fonction d'un template
  */
@@ -31,12 +34,23 @@ public class Prank {
 
         // En-tête
         String from = "From: " + emetteur + "\n";
-        
         String to = "To: " + destinataire + "\n";
-        String subject = "Subject: " + replaceVariables(this.subject, emetteur, destinataire) + "\n\n";
+        String subject_e= encodeB64(replaceVariables(this.subject, emetteur, destinataire));
+        String subject = "Subject: =?utf-8?B?" + subject_e + "?=\n";
+        String encoding = "Content-Type: text/plain; charset=utf-8\n\n";
         String content = replaceVariables(this.template, emetteur, destinataire);
 
-        return from + to + subject + content;
+        return from + to + subject + encoding + content;
+    }
+
+    /**
+     * Encode en base64 UTF-8 la string passée en paramètre
+     * @param s la chaîne de caractère à encoder
+     * @return la string encodée en base64
+     */
+    private String encodeB64(String s){
+
+        return new String(Base64.encodeBase64(s.getBytes(StandardCharsets.UTF_8)));
     }
 
     /**
