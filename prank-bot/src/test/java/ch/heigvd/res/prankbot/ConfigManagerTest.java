@@ -28,7 +28,7 @@ public class ConfigManagerTest {
 
 
         } catch(Exception e){
-
+            e.printStackTrace();
         }
         
     }

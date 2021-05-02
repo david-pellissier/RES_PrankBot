@@ -39,7 +39,7 @@ public class ConfigManager {
      * @throws IOException
      */
     private Properties readPropertiesFile(String file) throws IOException {
-        Properties prop = null;
+        Properties prop;
 
         Reader reader = new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8);
         prop = new Properties();
@@ -72,22 +72,21 @@ public class ConfigManager {
         JSONArray listVictimes = (JSONArray) jsonObject.get("victimes");
 
         if (number > listVictimes.size())
-            throw new IllegalArgumentException("number of victims must be lesser " +
-                    "than the size of the victimes file");
+            throw new IllegalArgumentException("Le nombre de groupes doit être plus petit que le nombre de victimes");
 
         if ((listVictimes.size() / number) < 3)
-            throw new IllegalArgumentException("There must be at least 3 victims per groups");
+            throw new IllegalArgumentException("Il doit y avoir au moins 3 personnes par groupe");
 
         int listSize = listVictimes.size();
 
         for (int i = 0; i < number; ++i) {
             int numberEmetteur = getRandomNumberInRange(1, listVictimes.size());
             JSONObject jsonEmetteur = (JSONObject) listVictimes.get(numberEmetteur);
-            if (jsonEmetteur.containsKey("name")) {
+            if (jsonEmetteur.containsKey("name"))
                 emetteur = new Personne((String) jsonEmetteur.get("mail"), (String) jsonEmetteur.get("name"));
-            } else {
+            else
                 emetteur = new Personne((String) jsonEmetteur.get("mail"));
-            }
+
             listVictimes.remove(numberEmetteur);
 
             victimes = new Groupe(emetteur);
@@ -95,12 +94,12 @@ public class ConfigManager {
             for (int j = 0; j < (listSize / number) - 1; ++j) {
                 int randVictime = getRandomNumberInRange(1, listVictimes.size());
                 JSONObject jsonVictime = (JSONObject) listVictimes.get(randVictime);
-                if (jsonVictime.containsKey("name")) {
+                if (jsonVictime.containsKey("name"))
                     victimes.addDestinataire(new Personne((String) jsonVictime.get("mail"),
                             (String) jsonVictime.get("name")));
-                } else {
+                else
                     victimes.addDestinataire(new Personne((String) jsonVictime.get("mail")));
-                }
+
                 listVictimes.remove(randVictime);
             }
             groupesVictimes.add(victimes);
@@ -121,27 +120,18 @@ public class ConfigManager {
          */
         if (max == min)
             return 0;
-        if (min > max) {
-            throw new IllegalArgumentException("max must be greater than min");
-        }
+        if (min > max)
+            throw new IllegalArgumentException("max doit être plus grand que min");
 
         Random r = new Random();
         return r.nextInt(max - min) + min;
     }
 
-    public String getSmtpServerAddress () {
-        return smtpServerAddress;
-    }
+    public String getSmtpServerAddress () { return smtpServerAddress; }
 
-    public int getSmtpServerPort () {
-        return smtpServerPort;
-    }
+    public int getSmtpServerPort () { return smtpServerPort; }
 
-    public int getNumberOfGroups () {
-        return numberOfGroups;
-    }
+    public int getNumberOfGroups () { return numberOfGroups; }
 
-    public ArrayList<Groupe> getVictimes () {
-        return victimes;
-    }
+    public ArrayList<Groupe> getVictimes () { return victimes; }
 }

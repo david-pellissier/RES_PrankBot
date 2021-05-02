@@ -1,6 +1,5 @@
 package ch.heigvd.res.prankbot;
 
-//import ch.heigvd.res.prankbot.smtp.SMTPClient;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
@@ -12,20 +11,31 @@ import ch.heigvd.res.prankbot.smtp.SMTPClient;
 @Command(
         name="prankbot",
         description = "Bot d'envoi de pranks",
-        version="1.0",
+        version="1.1",
         mixinStandardHelpOptions = true
 )
 public class PrankBot implements Callable<Integer>
 {
+    private final String defaultConfig = "config.properties";
+    private final String defaultVictimes = "victimes.json";
+    private final String defaultPranks = "pranks.json";
+    private final String defaultDir = "config/";
 
-    @Option(names = { "-c", "--config"}, description = "Fichier .properties contenant la configuration de PrankBot", defaultValue = "config/config.properties") 
+    @Option(names = { "-c", "--config"}, description = "Fichier .properties contenant la configuration de PrankBot",
+            defaultValue = defaultDir + defaultConfig)
     private String configfile;
 
-    @Option(names= { "-v", "--victimes"}, description = "Fichier JSON contenant les victimes", defaultValue = "config/victimes.json")
+    @Option(names= { "-v", "--victimes"}, description = "Fichier JSON contenant les victimes",
+            defaultValue = defaultDir + defaultVictimes)
     private String victimesfile;
 
-    @Option(names= { "-p", "--pranks"}, description = "Fichier JSON contenant les pranks", defaultValue = "config/pranks.json")
+    @Option(names= { "-p", "--pranks"}, description = "Fichier JSON contenant les pranks",
+            defaultValue = defaultDir + defaultPranks)
     private String prankfile;
+
+    @Option(names= { "-d", "--directory"}, description = "Dossier contenant les fichiers de configuration",
+            defaultValue = defaultDir)
+    private String directory;
 
     // générée depuis : https://textfancy.com/multiline-text-art/
     static final String BANNER = "\u2591\u2591\u2591\u2591\u2591\u2591  \u2591\u2591\u2591\u2591\u2591\u2591   \u2591\u2591\u2591\u2591\u2591  \u2591\u2591\u2591    \u2591\u2591 \u2591\u2591   \u2591\u2591 \u2591\u2591\u2591\u2591\u2591\u2591   \u2591\u2591\u2591\u2591\u2591\u2591  \u2591\u2591\u2591\u2591\u2591\u2591\u2591\u2591 \n\u2592\u2592   \u2592\u2592 \u2592\u2592   \u2592\u2592 \u2592\u2592   \u2592\u2592 \u2592\u2592\u2592\u2592   \u2592\u2592 \u2592\u2592  \u2592\u2592  \u2592\u2592   \u2592\u2592 \u2592\u2592    \u2592\u2592    \u2592\u2592    \n\u2592\u2592\u2592\u2592\u2592\u2592  \u2592\u2592\u2592\u2592\u2592\u2592  \u2592\u2592\u2592\u2592\u2592\u2592\u2592 \u2592\u2592 \u2592\u2592  \u2592\u2592 \u2592\u2592\u2592\u2592\u2592   \u2592\u2592\u2592\u2592\u2592\u2592  \u2592\u2592    \u2592\u2592    \u2592\u2592    \n\u2593\u2593      \u2593\u2593   \u2593\u2593 \u2593\u2593   \u2593\u2593 \u2593\u2593  \u2593\u2593 \u2593\u2593 \u2593\u2593  \u2593\u2593  \u2593\u2593   \u2593\u2593 \u2593\u2593    \u2593\u2593    \u2593\u2593    \n\u2588\u2588      \u2588\u2588   \u2588\u2588 \u2588\u2588   \u2588\u2588 \u2588\u2588   \u2588\u2588\u2588\u2588 \u2588\u2588   \u2588\u2588 \u2588\u2588\u2588\u2588\u2588\u2588   \u2588\u2588\u2588\u2588\u2588\u2588     \u2588\u2588    \n";
@@ -33,21 +43,29 @@ public class PrankBot implements Callable<Integer>
 
     @Override
     public Integer call() throws Exception {
+        ConfigManager config;
+        PrankGenerator prankgen;
 
         try {
-
             System.out.println("\n" + BANNER);
-            
-            System.out.print("Récupération de la configuration ...");
-            ConfigManager config = new ConfigManager(configfile, victimesfile);
 
-            System.out.print("OK\nLecture des pranks...");
-            PrankGenerator prankgen = new PrankGenerator(prankfile);
+            if (!directory.equals(defaultDir)) {
 
-            System.out.print("OK\nConnexion au serveur SMTP (" + config.getSmtpServerAddress() + ":" + config.getSmtpServerPort() + ")...");
+                // l'utilisateur peut ne pas avoir mis le "/" à la fin alors il faut l'ajouter
+                if(! directory.endsWith("/"))
+                    directory = directory + '/';
+
+                config = initConfig(directory + defaultConfig, directory + defaultVictimes);
+                prankgen = initPranks(directory + defaultPranks);
+            } else {
+                config = initConfig(configfile, victimesfile);
+                prankgen = initPranks(prankfile);
+            }
+
+            System.out.print("OK\nConnexion au serveur SMTP (" + config.getSmtpServerAddress() + ":" + config.getSmtpServerPort() + ")…");
             SMTPClient client = new SMTPClient(config.getSmtpServerAddress(), config.getSmtpServerPort());
             
-            System.out.print("Connexion réussie\n\nEnvoi des messages aux groupes...");
+            System.out.print("Connexion réussie\n\nEnvoi des messages aux groupes…");
     
             // Envoi des pranks à chaque groupe de victimes
             for( Groupe g : config.getVictimes()){
@@ -64,7 +82,7 @@ public class PrankBot implements Callable<Integer>
     
             client.close();
 
-            System.out.println("...Fin du programme.\n");
+            System.out.println("…Fin du programme.\n");
         }
         catch(Exception e){
             System.out.println("\nErreur:\n" + e.getMessage());
@@ -90,4 +108,15 @@ public class PrankBot implements Callable<Integer>
 
         System.out.println("");
     }
+
+    private ConfigManager initConfig(String c, String v) throws Exception {
+        System.out.print("Récupération de la configuration…");
+        return new ConfigManager(c, v);
+    }
+
+    private PrankGenerator initPranks(String p) throws Exception {
+        System.out.print("OK\nLecture des pranks…");
+        return new PrankGenerator(p);
+    }
 }
+

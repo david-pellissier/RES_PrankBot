@@ -34,6 +34,9 @@ Pour fonctionner, PrankBot a besoin de 3 fichiers de configurations.
 Vous trouverez des exemples [ici](https://github.com/david-pellissier/RES_PrankBot/exemples).
 
 Si vous ne spécifiez aucun fichier de configuration, PrankBot cherchera les fichiers dans le dossier *config*.
+
+L'option `-d` permet de spécifier un dossier où chercher les 3 fichiers de config avec leur nom par défaut.
+
 ### Config générale
 
 Le fichier *config.properties* contient les informations suivantes:
