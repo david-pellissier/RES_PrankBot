@@ -21,7 +21,9 @@ public class PrankGeneratorTest {
 
             ArrayList<Prank> result = gen.getPranks();
 
-            Prank[] expected = {new Prank("s1", "c1"), new Prank("s2", "c2"), new Prank("s3", "c3") };
+            Prank[] expected = {new Prank("s1", "c1"),
+                                new Prank("s2", "c2"),
+                                new Prank("s3", "c3") };
 
             for(int i = 0; i < 3; ++i){
                 assertEquals(expected[i].getMessage(alice, bob), result.get(i).getMessage(alice, bob));
