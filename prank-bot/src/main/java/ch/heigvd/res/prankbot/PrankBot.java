@@ -19,7 +19,7 @@ public class PrankBot implements Callable<Integer>
     private final String defaultConfig = "config.properties";
     private final String defaultVictimes = "victimes.json";
     private final String defaultPranks = "pranks.json";
-    private final String defaultDir = "config";
+    private final String defaultDir = "config/";
 
     @Option(names = { "-c", "--config"}, description = "Fichier .properties contenant la configuration de PrankBot",
             defaultValue = defaultDir + defaultConfig)
@@ -33,7 +33,7 @@ public class PrankBot implements Callable<Integer>
             defaultValue = defaultDir + defaultPranks)
     private String prankfile;
 
-    @Option(names= { "-d", "--directory"}, description = "Dossier contenant les fichiers de configurations",
+    @Option(names= { "-d", "--directory"}, description = "Dossier contenant les fichiers de configuration",
             defaultValue = defaultDir)
     private String directory;
 
@@ -50,6 +50,11 @@ public class PrankBot implements Callable<Integer>
             System.out.println("\n" + BANNER);
 
             if (!directory.equals(defaultDir)) {
+
+                // l'utilisateur peut ne pas avoir mis le "/" à la fin alors il faut l'ajouter
+                if(! directory.endsWith("/"))
+                    directory = directory + '/';
+
                 config = initConfig(directory + defaultConfig, directory + defaultVictimes);
                 prankgen = initPranks(directory + defaultPranks);
             } else {
