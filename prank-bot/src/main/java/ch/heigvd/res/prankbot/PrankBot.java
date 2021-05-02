@@ -11,7 +11,7 @@ import ch.heigvd.res.prankbot.smtp.SMTPClient;
 @Command(
         name="prankbot",
         description = "Bot d'envoi de pranks",
-        version="1.01",
+        version="1.1",
         mixinStandardHelpOptions = true
 )
 public class PrankBot implements Callable<Integer>
